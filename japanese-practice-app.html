@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japanese N5 Practice App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+      min-height: 100vh;
+      padding: 1rem;
+      color: #333;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: #f8f8f8;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    /* Tab Navigation */
+    .tab-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 1rem;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: #666;
+      transition: all 0.3s;
+    }
+
+    .tab-btn.active {
+      color: #1a1a1a;
+      border-bottom-color: #007bff;
+    }
+
+    .tab-btn:hover {
+      color: #333;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Flashcard */
+    .flashcard {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 2rem;
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      transition: transform 0.3s;
+    }
+
+    .flashcard:hover {
+      transform: scale(1.02);
+    }
+
+    .card-front {
+      font-size: 48px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .card-hint {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .card-back {
+      display: none;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .card-back.show {
+      display: block;
+    }
+
+    .card-front.hide {
+      display: none;
+    }
+
+    /* Button Groups */
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .button-group button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .btn-incorrect {
+      background: #ff6b6b;
+      color: white;
+    }
+
+    .btn-incorrect:hover {
+      background: #ff5252;
+    }
+
+    .btn-correct {
+      background: #51cf66;
+      color: white;
+    }
+
+    .btn-correct:hover {
+      background: #40c057;
+    }
+
+    .btn-hidden {
+      display: none;
+    }
+
+    /* Grammar Section */
+    .grammar-rule-box {
+      background: #f8f8f8;
+      border-left: 4px solid #667eea;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .grammar-rule-box p {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .grammar-rule-box .rule-text {
+      font-size: 16px;
+      color: #1a1a1a;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .grammar-rule-box .example {
+      font-size: 14px;
+      color: #333;
+      font-style: italic;
+    }
+
+    /* Select/Input */
+    select, input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 1rem;
+      font-family: inherit;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    /* Button Styles */
+    button {
+      padding: 10px 16px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s;
+      width: 100%;
+    }
+
+    button:hover:not(.tab-btn) {
+      background: #5568d3;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Options Grid */
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    .option-btn {
+      padding: 12px 16px;
+      background: #f8f8f8;
+      color: #1a1a1a;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .option-btn:hover {
+      background: #f0f0f0;
+      border-color: #667eea;
+    }
+
+    .option-btn.selected {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .option-btn.correct {
+      background: #51cf66;
+      color: white;
+      border-color: #51cf66;
+    }
+
+    .option-btn.incorrect {
+      background: #ff6b6b;
+      color: white;
+      border-color: #ff6b6b;
+    }
+
+    /* Feedback */
+    .feedback-box {
+      background: #f8f8f8;
+      border-left: 4px solid #667eea;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+
+    .feedback-box.show {
+      display: block;
+    }
+
+    .feedback-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 15px;
+    }
+
+    .feedback-text {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Counter */
+    .counter {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    /* Coming Soon */
+    .coming-soon {
+      background: #f8f8f8;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      color: #666;
+    }
+
+    .coming-soon p {
+      margin-bottom: 1rem;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e0e0e0;
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📚 Japanese N5 Practice</h1>
+    <p class="subtitle">Interactive study tool for JLPT N5 level learners</p>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Studied Today</div>
+        <div class="stat-value" id="stat-studied">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Correct</div>
+        <div class="stat-value" id="stat-correct">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Streak</div>
+        <div class="stat-value" id="stat-streak">0</div>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('flashcards')">Flashcards</button>
+      <button class="tab-btn" onclick="switchTab('grammar')">Grammar</button>
+      <button class="tab-btn" onclick="switchTab('sentences')">Sentences</button>
+    </div>
+
+    <!-- Flashcards Tab -->
+    <div id="flashcards" class="tab-content active">
+      <div class="counter">
+        Card <span id="card-num">1</span> of <span id="card-total">8</span>
+      </div>
+
+      <div class="flashcard" onclick="toggleFlashcard()">
+        <div class="card-front" id="card-front">日本</div>
+        <div class="card-hint" id="card-hint">Click to reveal</div>
+        <div class="card-back" id="card-back">
+          <div id="card-romaji">nihon</div>
+          <div id="card-english">Japan</div>
+        </div>
+      </div>
+
+      <div class="button-group" id="button-group">
+        <button class="btn-incorrect" onclick="markCard(false)">Incorrect</button>
+        <button class="btn-correct" onclick="markCard(true)">Correct</button>
+      </div>
+    </div>
+
+    <!-- Grammar Tab -->
+    <div id="grammar" class="tab-content">
+      <label style="font-size: 14px; font-weight: 500; display: block; margin-bottom: 8px;">Select Particle</label>
+      <select onchange="updateGrammarRule(this.value)">
+        <option value="は">は - Topic marker</option>
+        <option value="を">を - Object marker</option>
+        <option value="に">に - Location/Direction</option>
+        <option value="か">か - Question marker</option>
+        <option value="で">で - Location of action</option>
+      </select>
+
+      <div class="grammar-rule-box">
+        <p>Rule</p>
+        <div class="rule-text" id="rule-text">Topic marker - identifies the topic of the sentence</div>
+        <p>Example</p>
+        <div class="example" id="rule-example">私は学生です。(I am a student.)</div>
+      </div>
+
+      <button onclick="generateGrammarQuestion()" id="gen-btn">Generate Practice Question</button>
+
+      <div class="feedback-box" id="grammar-feedback">
+        <div class="feedback-title" id="feedback-title"></div>
+        <div class="feedback-text" id="feedback-text"></div>
+      </div>
+    </div>
+
+    <!-- Sentences Tab -->
+    <div id="sentences" class="tab-content">
+      <div class="coming-soon">
+        <h3 style="margin-bottom: 0.5rem;">Coming Soon!</h3>
+        <p>Sentence builder to construct Japanese sentences and get AI feedback on grammar and naturalness.</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Created for JLPT N5 learners • Progress saved locally</p>
+    </div>
+  </div>
+
+  <script>
+    // Data
+    const vocab = [
+      { japanese: '日本', romaji: 'nihon', english: 'Japan' },
+      { japanese: 'さくら', romaji: 'sakura', english: 'cherry blossom' },
+      { japanese: '学生', romaji: 'gakusei', english: 'student' },
+      { japanese: '先生', romaji: 'sensei', english: 'teacher' },
+      { japanese: '食べ物', romaji: 'tabemono', english: 'food' },
+      { japanese: '猫', romaji: 'neko', english: 'cat' },
+      { japanese: '本', romaji: 'hon', english: 'book' },
+      { japanese: '学校', romaji: 'gakkou', english: 'school' },
+    ];
+
+    const grammarRules = {
+      'は': { 
+        rule: 'Topic marker - identifies the topic of the sentence',
+        example: '私は学生です。(I am a student.)'
+      },
+      'を': { 
+        rule: 'Object marker - marks the direct object of a verb',
+        example: '水を飲みます。(I drink water.)'
+      },
+      'に': { 
+        rule: 'Location/direction marker - to, in, at',
+        example: '図書館に行きます。(I go to the library.)'
+      },
+      'か': { 
+        rule: 'Question marker - turns a statement into a question',
+        example: '学生ですか？(Are you a student?)'
+      },
+      'で': { 
+        rule: 'Location of action - where something is done',
+        example: 'カフェで勉強します。(I study at a cafe.)'
+      }
+    };
+
+    // State
+    let currentCard = 0;
+    let isFlipped = false;
+    let stats = { studied: 0, correct: 0, streak: 0 };
+    let currentGrammar = 'は';
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStats();
+      updateCardDisplay();
+      document.getElementById('card-total').textContent = vocab.length;
+    });
+
+    // Tabs
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Flashcards
+    function toggleFlashcard() {
+      isFlipped = !isFlipped;
+      const front = document.getElementById('card-front');
+      const hint = document.getElementById('card-hint');
+      const back = document.getElementById('card-back');
+      const btnGroup = document.getElementById('button-group');
+
+      if (isFlipped) {
+        front.classList.add('hide');
+        hint.style.display = 'none';
+        back.classList.add('show');
+        btnGroup.classList.remove('btn-hidden');
+      } else {
+        front.classList.remove('hide');
+        hint.style.display = 'block';
+        back.classList.remove('show');
+        btnGroup.classList.add('btn-hidden');
+      }
+    }
+
+    function markCard(correct) {
+      stats.studied++;
+      if (correct) {
+        stats.correct++;
+        stats.streak++;
+      } else {
+        stats.streak = 0;
+      }
+      saveStats();
+      updateStats();
+      nextCard();
+    }
+
+    function nextCard() {
+      currentCard = (currentCard + 1) % vocab.length;
+      isFlipped = false;
+      updateCardDisplay();
+      document.getElementById('button-group').classList.add('btn-hidden');
+      document.getElementById('card-front').classList.remove('hide');
+      document.getElementById('card-hint').style.display = 'block';
+      document.getElementById('card-back').classList.remove('show');
+    }
+
+    function updateCardDisplay() {
+      const card = vocab[currentCard];
+      document.getElementById('card-front').textContent = card.japanese;
+      document.getElementById('card-romaji').textContent = card.romaji;
+      document.getElementById('card-english').textContent = card.english;
+      document.getElementById('card-num').textContent = currentCard + 1;
+    }
+
+    // Grammar
+    function updateGrammarRule(particle) {
+      currentGrammar = particle;
+      document.getElementById('rule-text').textContent = grammarRules[particle].rule;
+      document.getElementById('rule-example').textContent = grammarRules[particle].example;
+      document.getElementById('grammar-feedback').classList.remove('show');
+    }
+
+    function generateGrammarQuestion() {
+      const feedbackBox = document.getElementById('grammar-feedback');
+      const feedbackTitle = document.getElementById('feedback-title');
+      const feedbackText = document.getElementById('feedback-text');
+      const btn = document.getElementById('gen-btn');
+
+      btn.disabled = true;
+      btn.textContent = 'Generating...';
+      feedbackBox.classList.add('show');
+      feedbackTitle.textContent = '📝 Practice Question';
+      feedbackText.textContent = 'Loading question...';
+
+      // Simulated grammar questions
+      const questions = {
+        'は': 'Fill: 私__学生です。 Answer: は (Topic marker)',
+        'を': 'Fill: 私は水__飲みます。 Answer: を (Object marker)',
+        'に': 'Fill: 図書館__行きます。 Answer: に (Destination)',
+        'か': 'Fill: 学生__ですか？ Answer: か (Question)',
+        'で': 'Fill: カフェ__勉強します。 Answer: で (Location of action)'
+      };
+
+      setTimeout(() => {
+        feedbackText.textContent = questions[currentGrammar] + '\n\nTry answering the question above!';
+        btn.disabled = false;
+        btn.textContent = 'Generate Another Question';
+      }, 800);
+    }
+
+    // Stats
+    function updateStats() {
+      document.getElementById('stat-studied').textContent = stats.studied;
+      document.getElementById('stat-correct').textContent = stats.correct;
+      document.getElementById('stat-streak').textContent = stats.streak;
+    }
+
+    function saveStats() {
+      localStorage.setItem('jpstats', JSON.stringify(stats));
+    }
+
+    function loadStats() {
+      const saved = localStorage.getItem('jpstats');
+      if (saved) {
+        stats = JSON.parse(saved);
+        updateStats();
+      }
+    }
+  </script>
+</body>
+</html>
