@@ -20,7 +20,7 @@
     }
 
     .container {
-      max-width: 700px;
+      max-width: 800px;
       margin: 0 auto;
       background: white;
       border-radius: 12px;
@@ -76,6 +76,7 @@
       margin-bottom: 2rem;
       border-bottom: 1px solid #e0e0e0;
       padding-bottom: 1rem;
+      overflow-x: auto;
     }
 
     .tab-btn {
@@ -88,11 +89,12 @@
       font-weight: 500;
       color: #666;
       transition: all 0.3s;
+      white-space: nowrap;
     }
 
     .tab-btn.active {
       color: #1a1a1a;
-      border-bottom-color: #007bff;
+      border-bottom-color: #667eea;
     }
 
     .tab-btn:hover {
@@ -194,6 +196,36 @@
       display: none;
     }
 
+    /* Category Selection */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+
+    .category-btn {
+      padding: 10px 16px;
+      background: #f8f8f8;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 13px;
+      transition: all 0.3s;
+    }
+
+    .category-btn:hover {
+      border-color: #667eea;
+      background: #f0f0f0;
+    }
+
+    .category-btn.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
     /* Grammar Section */
     .grammar-rule-box {
       background: #f8f8f8;
@@ -253,13 +285,89 @@
       width: 100%;
     }
 
-    button:hover:not(.tab-btn) {
+    button:hover:not(.tab-btn):not(.category-btn) {
       background: #5568d3;
     }
 
     button:disabled {
       background: #ccc;
       cursor: not-allowed;
+    }
+
+    /* Sentence Builder */
+    .sentence-section {
+      background: #f8f8f8;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .sentence-section h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1a1a1a;
+    }
+
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+      min-height: 40px;
+    }
+
+    .word-chip {
+      background: white;
+      border: 1px solid #667eea;
+      border-radius: 20px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #667eea;
+      transition: all 0.3s;
+      user-select: none;
+    }
+
+    .word-chip:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    .sentence-builder {
+      background: white;
+      border: 2px dashed #e0e0e0;
+      border-radius: 8px;
+      padding: 1rem;
+      min-height: 60px;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .built-word {
+      background: #667eea;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .built-word:hover {
+      background: #5568d3;
+    }
+
+    .built-word .remove {
+      font-weight: bold;
+      cursor: pointer;
+      opacity: 0.7;
     }
 
     /* Options Grid */
@@ -285,24 +393,6 @@
     .option-btn:hover {
       background: #f0f0f0;
       border-color: #667eea;
-    }
-
-    .option-btn.selected {
-      background: #667eea;
-      color: white;
-      border-color: #667eea;
-    }
-
-    .option-btn.correct {
-      background: #51cf66;
-      color: white;
-      border-color: #51cf66;
-    }
-
-    .option-btn.incorrect {
-      background: #ff6b6b;
-      color: white;
-      border-color: #ff6b6b;
     }
 
     /* Feedback */
@@ -386,8 +476,9 @@
     <!-- Tab Navigation -->
     <div class="tab-nav">
       <button class="tab-btn active" onclick="switchTab('flashcards')">Flashcards</button>
+      <button class="tab-btn" onclick="switchTab('vocab')">Vocabulary</button>
+      <button class="tab-btn" onclick="switchTab('builder')">Sentence Builder</button>
       <button class="tab-btn" onclick="switchTab('grammar')">Grammar</button>
-      <button class="tab-btn" onclick="switchTab('sentences')">Sentences</button>
     </div>
 
     <!-- Flashcards Tab -->
@@ -408,6 +499,60 @@
       <div class="button-group" id="button-group">
         <button class="btn-incorrect" onclick="markCard(false)">Incorrect</button>
         <button class="btn-correct" onclick="markCard(true)">Correct</button>
+      </div>
+    </div>
+
+    <!-- Vocabulary Tab -->
+    <div id="vocab" class="tab-content">
+      <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 1.5rem;">Select Category</h2>
+      
+      <div class="category-grid" id="category-grid"></div>
+
+      <div class="counter">
+        Word <span id="vocab-num">1</span> of <span id="vocab-total">0</span>
+      </div>
+
+      <div class="flashcard" onclick="toggleVocabCard()">
+        <div class="card-front" id="vocab-front">日本</div>
+        <div class="card-hint" id="vocab-hint">Click to reveal</div>
+        <div class="card-back" id="vocab-back">
+          <div id="vocab-romaji">nihon</div>
+          <div id="vocab-english">Japan</div>
+        </div>
+      </div>
+
+      <div class="button-group" id="vocab-button-group">
+        <button class="btn-incorrect" onclick="markVocab(false)">Incorrect</button>
+        <button class="btn-correct" onclick="markVocab(true)">Correct</button>
+      </div>
+    </div>
+
+    <!-- Sentence Builder Tab -->
+    <div id="builder" class="tab-content">
+      <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 1.5rem;">Build a Sentence</h2>
+      
+      <div class="sentence-section">
+        <h3>Target Sentence</h3>
+        <p id="target-sentence" style="font-size: 16px; color: #1a1a1a; margin: 0;">私は毎日学校に行きます。</p>
+        <p style="font-size: 13px; color: #666; margin-top: 0.5rem; margin-bottom: 0;">I go to school every day.</p>
+      </div>
+
+      <div class="sentence-section">
+        <h3>Word Bank (Click to add)</h3>
+        <div class="word-bank" id="word-bank"></div>
+      </div>
+
+      <div class="sentence-section">
+        <h3>Your Sentence</h3>
+        <div class="sentence-builder" id="sentence-builder">
+          <p style="color: #999; font-size: 13px;">Click words above to build your sentence</p>
+        </div>
+        <button onclick="checkSentence()">Check Answer</button>
+      </div>
+
+      <div class="feedback-box" id="builder-feedback">
+        <div class="feedback-title" id="builder-feedback-title"></div>
+        <div class="feedback-text" id="builder-feedback-text"></div>
       </div>
     </div>
 
@@ -437,22 +582,71 @@
       </div>
     </div>
 
-    <!-- Sentences Tab -->
-    <div id="sentences" class="tab-content">
-      <div class="coming-soon">
-        <h3 style="margin-bottom: 0.5rem;">Coming Soon!</h3>
-        <p>Sentence builder to construct Japanese sentences and get AI feedback on grammar and naturalness.</p>
-      </div>
-    </div>
-
     <div class="footer">
       <p>Created for JLPT N5 learners • Progress saved locally</p>
     </div>
   </div>
 
   <script>
-    // Data
-    const vocab = [
+    // Expanded Vocabulary Data
+    const vocabData = {
+      'Food': [
+        { japanese: 'ご飯', romaji: 'gohan', english: 'rice/meal' },
+        { japanese: 'パン', romaji: 'pan', english: 'bread' },
+        { japanese: 'す​し', romaji: 'sushi', english: 'sushi' },
+        { japanese: 'りんご', romaji: 'ringo', english: 'apple' },
+        { japanese: 'みず', romaji: 'mizu', english: 'water' },
+        { japanese: 'ぎゅうにゅう', romaji: 'gyuunyuu', english: 'milk' },
+      ],
+      'School': [
+        { japanese: '学校', romaji: 'gakkou', english: 'school' },
+        { japanese: '学生', romaji: 'gakusei', english: 'student' },
+        { japanese: '先生', romaji: 'sensei', english: 'teacher' },
+        { japanese: '本', romaji: 'hon', english: 'book' },
+        { japanese: 'えんぴつ', romaji: 'enpitsu', english: 'pencil' },
+        { japanese: 'ノート', romaji: 'nooto', english: 'notebook' },
+      ],
+      'Animals': [
+        { japanese: '猫', romaji: 'neko', english: 'cat' },
+        { japanese: '犬', romaji: 'inu', english: 'dog' },
+        { japanese: '鳥', romaji: 'tori', english: 'bird' },
+        { japanese: '魚', romaji: 'sakana', english: 'fish' },
+        { japanese: 'ウサギ', romaji: 'usagi', english: 'rabbit' },
+        { japanese: 'パンダ', romaji: 'panda', english: 'panda' },
+      ],
+      'Daily Life': [
+        { japanese: '朝', romaji: 'asa', english: 'morning' },
+        { japanese: '昼', romaji: 'hiru', english: 'afternoon' },
+        { japanese: '夜', romaji: 'yoru', english: 'night' },
+        { japanese: '家', romaji: 'ie', english: 'house' },
+        { japanese: 'ベッド', romaji: 'beddo', english: 'bed' },
+        { japanese: 'テーブル', romaji: 'teeburu', english: 'table' },
+      ],
+      'Nature': [
+        { japanese: '山', romaji: 'yama', english: 'mountain' },
+        { japanese: '川', romaji: 'kawa', english: 'river' },
+        { japanese: '花', romaji: 'hana', english: 'flower' },
+        { japanese: 'さくら', romaji: 'sakura', english: 'cherry blossom' },
+        { japanese: '木', romaji: 'ki', english: 'tree' },
+        { japanese: '雪', romaji: 'yuki', english: 'snow' },
+      ],
+    };
+
+    const sentenceExercises = [
+      { words: ['私は', '毎日', '学校に', '行きます。'], target: '私は毎日学校に行きます。', english: 'I go to school every day.' },
+      { words: ['あの', '猫は', 'かわいいです。'], target: 'あの猫はかわいいです。', english: 'That cat is cute.' },
+      { words: ['水を', '飲みます。'], target: '水を飲みます。', english: 'I drink water.' },
+    ];
+
+    const grammarRules = {
+      'は': { rule: 'Topic marker - identifies the topic of the sentence', example: '私は学生です。(I am a student.)' },
+      'を': { rule: 'Object marker - marks the direct object of a verb', example: '水を飲みます。(I drink water.)' },
+      'に': { rule: 'Location/direction marker - to, in, at', example: '図書館に行きます。(I go to the library.)' },
+      'か': { rule: 'Question marker - turns a statement into a question', example: '学生ですか？(Are you a student?)' },
+      'で': { rule: 'Location of action - where something is done', example: 'カフェで勉強します。(I study at a cafe.)' }
+    };
+
+    const basicVocab = [
       { japanese: '日本', romaji: 'nihon', english: 'Japan' },
       { japanese: 'さくら', romaji: 'sakura', english: 'cherry blossom' },
       { japanese: '学生', romaji: 'gakusei', english: 'student' },
@@ -463,40 +657,24 @@
       { japanese: '学校', romaji: 'gakkou', english: 'school' },
     ];
 
-    const grammarRules = {
-      'は': { 
-        rule: 'Topic marker - identifies the topic of the sentence',
-        example: '私は学生です。(I am a student.)'
-      },
-      'を': { 
-        rule: 'Object marker - marks the direct object of a verb',
-        example: '水を飲みます。(I drink water.)'
-      },
-      'に': { 
-        rule: 'Location/direction marker - to, in, at',
-        example: '図書館に行きます。(I go to the library.)'
-      },
-      'か': { 
-        rule: 'Question marker - turns a statement into a question',
-        example: '学生ですか？(Are you a student?)'
-      },
-      'で': { 
-        rule: 'Location of action - where something is done',
-        example: 'カフェで勉強します。(I study at a cafe.)'
-      }
-    };
-
     // State
     let currentCard = 0;
     let isFlipped = false;
     let stats = { studied: 0, correct: 0, streak: 0 };
     let currentGrammar = 'は';
+    let currentCategory = null;
+    let vocabCards = basicVocab;
+    let currentVocabCard = 0;
+    let isVocabFlipped = false;
+    let currentSentenceExercise = 0;
 
     // Initialize
     window.addEventListener('DOMContentLoaded', () => {
       loadStats();
       updateCardDisplay();
-      document.getElementById('card-total').textContent = vocab.length;
+      initializeVocabCategories();
+      document.getElementById('card-total').textContent = basicVocab.length;
+      loadSentenceExercise();
     });
 
     // Tabs
@@ -505,6 +683,143 @@
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
       document.getElementById(tabName).classList.add('active');
       event.target.classList.add('active');
+    }
+
+    // Vocab Categories
+    function initializeVocabCategories() {
+      const grid = document.getElementById('category-grid');
+      Object.keys(vocabData).forEach(category => {
+        const btn = document.createElement('button');
+        btn.className = 'category-btn';
+        btn.textContent = category;
+        btn.onclick = () => selectVocabCategory(category, btn);
+        grid.appendChild(btn);
+      });
+    }
+
+    function selectVocabCategory(category, btn) {
+      currentCategory = category;
+      document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      vocabCards = vocabData[category];
+      currentVocabCard = 0;
+      isVocabFlipped = false;
+      document.getElementById('vocab-total').textContent = vocabCards.length;
+      updateVocabCardDisplay();
+    }
+
+    function toggleVocabCard() {
+      isVocabFlipped = !isVocabFlipped;
+      const front = document.getElementById('vocab-front');
+      const hint = document.getElementById('vocab-hint');
+      const back = document.getElementById('vocab-back');
+      const btnGroup = document.getElementById('vocab-button-group');
+
+      if (isVocabFlipped) {
+        front.classList.add('hide');
+        hint.style.display = 'none';
+        back.classList.add('show');
+        btnGroup.classList.remove('btn-hidden');
+      } else {
+        front.classList.remove('hide');
+        hint.style.display = 'block';
+        back.classList.remove('show');
+        btnGroup.classList.add('btn-hidden');
+      }
+    }
+
+    function markVocab(correct) {
+      stats.studied++;
+      if (correct) {
+        stats.correct++;
+        stats.streak++;
+      } else {
+        stats.streak = 0;
+      }
+      saveStats();
+      updateStats();
+      nextVocabCard();
+    }
+
+    function nextVocabCard() {
+      currentVocabCard = (currentVocabCard + 1) % vocabCards.length;
+      isVocabFlipped = false;
+      updateVocabCardDisplay();
+      document.getElementById('vocab-button-group').classList.add('btn-hidden');
+      document.getElementById('vocab-front').classList.remove('hide');
+      document.getElementById('vocab-hint').style.display = 'block';
+      document.getElementById('vocab-back').classList.remove('show');
+    }
+
+    function updateVocabCardDisplay() {
+      const card = vocabCards[currentVocabCard];
+      document.getElementById('vocab-front').textContent = card.japanese;
+      document.getElementById('vocab-romaji').textContent = card.romaji;
+      document.getElementById('vocab-english').textContent = card.english;
+      document.getElementById('vocab-num').textContent = currentVocabCard + 1;
+    }
+
+    // Sentence Builder
+    function loadSentenceExercise() {
+      const ex = sentenceExercises[currentSentenceExercise % sentenceExercises.length];
+      document.getElementById('target-sentence').textContent = ex.target;
+      document.getElementById('word-bank').innerHTML = '';
+      
+      ex.words.forEach((word, idx) => {
+        const chip = document.createElement('div');
+        chip.className = 'word-chip';
+        chip.textContent = word;
+        chip.onclick = () => addWordToSentence(word, idx, chip);
+        document.getElementById('word-bank').appendChild(chip);
+      });
+      
+      clearSentenceBuilder();
+    }
+
+    function addWordToSentence(word, idx, element) {
+      const builder = document.getElementById('sentence-builder');
+      if (builder.textContent.includes('Click words')) {
+        builder.innerHTML = '';
+      }
+      
+      const wordEl = document.createElement('div');
+      wordEl.className = 'built-word';
+      wordEl.textContent = word + ' ';
+      wordEl.dataset.index = idx;
+      wordEl.onclick = () => removeWord(wordEl);
+      builder.appendChild(wordEl);
+    }
+
+    function removeWord(el) {
+      el.remove();
+      if (document.getElementById('sentence-builder').children.length === 0) {
+        document.getElementById('sentence-builder').innerHTML = '<p style="color: #999; font-size: 13px;">Click words above to build your sentence</p>';
+      }
+    }
+
+    function clearSentenceBuilder() {
+      document.getElementById('sentence-builder').innerHTML = '<p style="color: #999; font-size: 13px;">Click words above to build your sentence</p>';
+    }
+
+    function checkSentence() {
+      const ex = sentenceExercises[currentSentenceExercise % sentenceExercises.length];
+      const builtText = Array.from(document.getElementById('sentence-builder').children)
+        .map(el => el.textContent.trim())
+        .join('');
+      const correct = builtText === ex.target;
+      
+      const feedback = document.getElementById('builder-feedback');
+      feedback.classList.add('show');
+      
+      if (correct) {
+        document.getElementById('builder-feedback-title').textContent = '✓ Correct!';
+        document.getElementById('builder-feedback-text').textContent = `Great job! "${ex.target}" means "${ex.english}"`;
+        currentSentenceExercise++;
+        setTimeout(() => loadSentenceExercise(), 2000);
+      } else {
+        document.getElementById('builder-feedback-title').textContent = '✗ Not quite';
+        document.getElementById('builder-feedback-text').textContent = `The correct order is: "${ex.target}" (${ex.english})`;
+      }
     }
 
     // Flashcards
@@ -542,7 +857,7 @@
     }
 
     function nextCard() {
-      currentCard = (currentCard + 1) % vocab.length;
+      currentCard = (currentCard + 1) % basicVocab.length;
       isFlipped = false;
       updateCardDisplay();
       document.getElementById('button-group').classList.add('btn-hidden');
@@ -552,7 +867,7 @@
     }
 
     function updateCardDisplay() {
-      const card = vocab[currentCard];
+      const card = basicVocab[currentCard];
       document.getElementById('card-front').textContent = card.japanese;
       document.getElementById('card-romaji').textContent = card.romaji;
       document.getElementById('card-english').textContent = card.english;
@@ -568,28 +883,25 @@
     }
 
     function generateGrammarQuestion() {
-      const feedbackBox = document.getElementById('grammar-feedback');
-      const feedbackTitle = document.getElementById('feedback-title');
-      const feedbackText = document.getElementById('feedback-text');
       const btn = document.getElementById('gen-btn');
-
       btn.disabled = true;
       btn.textContent = 'Generating...';
-      feedbackBox.classList.add('show');
-      feedbackTitle.textContent = '📝 Practice Question';
-      feedbackText.textContent = 'Loading question...';
-
-      // Simulated grammar questions
+      
       const questions = {
-        'は': 'Fill: 私__学生です。 Answer: は (Topic marker)',
-        'を': 'Fill: 私は水__飲みます。 Answer: を (Object marker)',
-        'に': 'Fill: 図書館__行きます。 Answer: に (Destination)',
-        'か': 'Fill: 学生__ですか？ Answer: か (Question)',
-        'で': 'Fill: カフェ__勉強します。 Answer: で (Location of action)'
+        'は': 'Fill: 私__学生です。\nAnswer: は (Topic marker)',
+        'を': 'Fill: 私は水__飲みます。\nAnswer: を (Object marker)',
+        'に': 'Fill: 図書館__行きます。\nAnswer: に (Destination)',
+        'か': 'Fill: 学生__ですか？\nAnswer: か (Question)',
+        'で': 'Fill: カフェ__勉強します。\nAnswer: で (Location of action)'
       };
 
+      const feedback = document.getElementById('grammar-feedback');
+      feedback.classList.add('show');
+      document.getElementById('feedback-title').textContent = '📝 Practice Question';
+      document.getElementById('feedback-text').textContent = 'Loading...';
+
       setTimeout(() => {
-        feedbackText.textContent = questions[currentGrammar] + '\n\nTry answering the question above!';
+        document.getElementById('feedback-text').textContent = questions[currentGrammar] + '\n\nTry answering!';
         btn.disabled = false;
         btn.textContent = 'Generate Another Question';
       }, 800);
