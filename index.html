@@ -110,6 +110,68 @@
       display: block;
     }
 
+    /* Lesson Selection Grid */
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 2rem;
+    }
+
+    .lesson-card {
+      background: #f8f8f8;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .lesson-card:hover:not(.locked) {
+      border-color: #667eea;
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+
+    .lesson-card.locked {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .lesson-status {
+      font-size: 32px;
+      margin-bottom: 0.5rem;
+    }
+
+    .lesson-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    .lesson-info {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .lesson-progress {
+      background: #e0e0e0;
+      height: 4px;
+      border-radius: 2px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .lesson-progress-fill {
+      background: #667eea;
+      height: 100%;
+      transition: width 0.3s;
+    }
+
     /* Flashcard */
     .flashcard {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -213,6 +275,7 @@
       font-weight: 500;
       font-size: 13px;
       transition: all 0.3s;
+      color: #1a1a1a;
     }
 
     .category-btn:hover {
@@ -226,161 +289,57 @@
       border-color: #667eea;
     }
 
-    /* Grammar Section */
-    .grammar-rule-box {
+    /* Lesson Container */
+    .lesson-container {
       background: #f8f8f8;
-      border-left: 4px solid #667eea;
       border-radius: 8px;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
     }
 
-    .grammar-rule-box p {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 0.5rem;
-    }
-
-    .grammar-rule-box .rule-text {
-      font-size: 16px;
-      color: #1a1a1a;
-      font-weight: 500;
-      margin-bottom: 1rem;
-    }
-
-    .grammar-rule-box .example {
-      font-size: 14px;
-      color: #333;
-      font-style: italic;
-    }
-
-    /* Select/Input */
-    select, input {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      font-size: 14px;
-      margin-bottom: 1rem;
-      font-family: inherit;
-    }
-
-    select:focus, input:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-
-    /* Button Styles */
-    button {
-      padding: 10px 16px;
-      background: #667eea;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 14px;
-      transition: all 0.3s;
-      width: 100%;
-    }
-
-    button:hover:not(.tab-btn):not(.category-btn) {
-      background: #5568d3;
-    }
-
-    button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-
-    /* Sentence Builder */
-    .sentence-section {
-      background: #f8f8f8;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .sentence-section h3 {
-      font-size: 15px;
+    .lesson-title-text {
+      font-size: 18px;
       font-weight: 600;
       margin-bottom: 1rem;
       color: #1a1a1a;
     }
 
-    .word-bank {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .lesson-intro {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
       margin-bottom: 1.5rem;
-      min-height: 40px;
-    }
-
-    .word-chip {
       background: white;
-      border: 1px solid #667eea;
-      border-radius: 20px;
-      padding: 8px 16px;
-      cursor: pointer;
-      font-size: 13px;
-      color: #667eea;
-      transition: all 0.3s;
-      user-select: none;
-    }
-
-    .word-chip:hover {
-      background: #667eea;
-      color: white;
-    }
-
-    .sentence-builder {
-      background: white;
-      border: 2px dashed #e0e0e0;
-      border-radius: 8px;
+      border-left: 4px solid #667eea;
       padding: 1rem;
-      min-height: 60px;
-      margin-bottom: 1rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .built-word {
-      background: #667eea;
-      color: white;
-      padding: 8px 12px;
       border-radius: 6px;
-      font-size: 13px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
-    .built-word:hover {
-      background: #5568d3;
+    .progress-bar {
+      background: #e0e0e0;
+      height: 6px;
+      border-radius: 3px;
+      margin-bottom: 1rem;
+      overflow: hidden;
     }
 
-    .built-word .remove {
-      font-weight: bold;
-      cursor: pointer;
-      opacity: 0.7;
+    .progress-fill {
+      background: #667eea;
+      height: 100%;
+      transition: width 0.3s;
     }
 
-    /* Options Grid */
-    .options-grid {
+    /* Multiple Choice */
+    .multiple-choice {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
-    .option-btn {
+    .choice-btn {
       padding: 12px 16px;
-      background: #f8f8f8;
+      background: white;
       color: #1a1a1a;
       border: 1px solid #e0e0e0;
       border-radius: 8px;
@@ -388,11 +347,93 @@
       cursor: pointer;
       font-size: 14px;
       transition: all 0.3s;
+      width: 100%;
     }
 
-    .option-btn:hover {
-      background: #f0f0f0;
+    .choice-btn:hover:not(:disabled) {
       border-color: #667eea;
+      background: #f0f0f0;
+    }
+
+    .choice-btn.selected {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .choice-btn.correct {
+      background: #51cf66;
+      color: white;
+      border-color: #51cf66;
+    }
+
+    .choice-btn.incorrect {
+      background: #ff6b6b;
+      color: white;
+      border-color: #ff6b6b;
+    }
+
+    .choice-btn:disabled {
+      cursor: not-allowed;
+    }
+
+    /* Matching Section */
+    .matching-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .match-column {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .match-column-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+    }
+
+    .match-item {
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 14px;
+      color: #1a1a1a;
+      text-align: center;
+    }
+
+    .match-item:hover {
+      border-color: #667eea;
+      background: #f8f8f8;
+    }
+
+    .match-item.selected {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+      font-weight: 600;
+    }
+
+    .match-item.matched {
+      background: #51cf66;
+      color: white;
+      border-color: #51cf66;
+      cursor: default;
+    }
+
+    .match-item.incorrect {
+      background: #ff6b6b;
+      color: white;
+      border-color: #ff6b6b;
+      cursor: default;
     }
 
     /* Feedback */
@@ -421,24 +462,38 @@
       line-height: 1.6;
     }
 
-    /* Counter */
-    .counter {
+    /* Buttons */
+    button {
+      padding: 10px 16px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s;
+      width: 100%;
+    }
+
+    button:hover:not(.tab-btn):not(.category-btn):not(.match-item):not(.choice-btn):not(.match-item):disabled {
+      background: #5568d3;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .back-btn {
+      background: #999;
+      margin-bottom: 1rem;
       font-size: 13px;
-      color: #666;
-      margin-bottom: 1rem;
+      padding: 8px;
     }
 
-    /* Coming Soon */
-    .coming-soon {
-      background: #f8f8f8;
-      border-radius: 8px;
-      padding: 2rem;
-      text-align: center;
-      color: #666;
-    }
-
-    .coming-soon p {
-      margin-bottom: 1rem;
+    .back-btn:hover {
+      background: #777;
     }
 
     /* Footer */
@@ -449,6 +504,13 @@
       text-align: center;
       font-size: 12px;
       color: #999;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: #1a1a1a;
     }
   </style>
 </head>
@@ -475,82 +537,84 @@
 
     <!-- Tab Navigation -->
     <div class="tab-nav">
-      <button class="tab-btn active" onclick="switchTab('flashcards')">Flashcards</button>
-      <button class="tab-btn" onclick="switchTab('vocab')">Vocabulary</button>
+      <button class="tab-btn active" onclick="switchTab('learn')">Learn</button>
+      <button class="tab-btn" onclick="switchTab('practice')">Practice</button>
       <button class="tab-btn" onclick="switchTab('builder')">Sentence Builder</button>
       <button class="tab-btn" onclick="switchTab('grammar')">Grammar</button>
     </div>
 
-    <!-- Flashcards Tab -->
-    <div id="flashcards" class="tab-content active">
-      <div class="counter">
-        Card <span id="card-num">1</span> of <span id="card-total">8</span>
+    <!-- Learn Tab -->
+    <div id="learn" class="tab-content active">
+      <!-- Lesson Selection Screen -->
+      <div id="lesson-selection">
+        <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 2rem;">Choose a Lesson</h2>
+        <div class="lesson-grid" id="lesson-grid"></div>
       </div>
 
-      <div class="flashcard" onclick="toggleFlashcard()">
-        <div class="card-front" id="card-front">日本</div>
-        <div class="card-hint" id="card-hint">Click to reveal</div>
-        <div class="card-back" id="card-back">
-          <div id="card-romaji">nihon</div>
-          <div id="card-english">Japan</div>
+      <!-- Active Lesson Screen -->
+      <div id="lesson-screen" style="display: none;">
+        <button class="back-btn" onclick="backToLessonSelection()">← Back to Lessons</button>
+
+        <div class="progress-bar">
+          <div class="progress-fill" id="lesson-progress" style="width: 0%;"></div>
         </div>
-      </div>
 
-      <div class="button-group" id="button-group">
-        <button class="btn-incorrect" onclick="markCard(false)">Incorrect</button>
-        <button class="btn-correct" onclick="markCard(true)">Correct</button>
+        <div class="lesson-container">
+          <div class="lesson-title-text" id="lesson-title">Lesson 1: Greetings</div>
+          <div class="lesson-intro" id="lesson-intro">Learn basic greetings</div>
+          <div id="lesson-content"></div>
+          <div id="lesson-feedback" class="feedback-box">
+            <div class="feedback-title" id="lesson-feedback-title"></div>
+            <div class="feedback-text" id="lesson-feedback-text"></div>
+          </div>
+          <button onclick="nextQuestion()" id="next-question-btn" style="display: none;">Next Question →</button>
+        </div>
       </div>
     </div>
 
-    <!-- Vocabulary Tab -->
-    <div id="vocab" class="tab-content">
-      <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 1.5rem;">Select Category</h2>
-      
+    <!-- Practice Tab -->
+    <div id="practice" class="tab-content">
+      <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 1.5rem;">Select Category to Practice</h2>
       <div class="category-grid" id="category-grid"></div>
-
-      <div class="counter">
-        Word <span id="vocab-num">1</span> of <span id="vocab-total">0</span>
-      </div>
-
-      <div class="flashcard" onclick="toggleVocabCard()">
-        <div class="card-front" id="vocab-front">日本</div>
-        <div class="card-hint" id="vocab-hint">Click to reveal</div>
-        <div class="card-back" id="vocab-back">
-          <div id="vocab-romaji">nihon</div>
-          <div id="vocab-english">Japan</div>
+      <div id="vocab-practice" style="display: none;">
+        <div style="font-size: 13px; color: #666; margin-bottom: 1rem;">
+          Word <span id="vocab-num">1</span> of <span id="vocab-total">0</span>
         </div>
-      </div>
-
-      <div class="button-group" id="vocab-button-group">
-        <button class="btn-incorrect" onclick="markVocab(false)">Incorrect</button>
-        <button class="btn-correct" onclick="markVocab(true)">Correct</button>
+        <div class="flashcard" onclick="toggleVocabCard()">
+          <div class="card-front" id="vocab-front">日本</div>
+          <div class="card-hint" id="vocab-hint">Click to reveal</div>
+          <div class="card-back" id="vocab-back">
+            <div id="vocab-romaji">nihon</div>
+            <div id="vocab-english">Japan</div>
+          </div>
+        </div>
+        <div class="button-group" id="vocab-button-group">
+          <button class="btn-incorrect" onclick="markVocab(false)">Incorrect</button>
+          <button class="btn-correct" onclick="markVocab(true)">Correct</button>
+        </div>
       </div>
     </div>
 
     <!-- Sentence Builder Tab -->
     <div id="builder" class="tab-content">
       <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 1.5rem;">Build a Sentence</h2>
-      
-      <div class="sentence-section">
-        <h3>Target Sentence</h3>
+      <div style="background: #f8f8f8; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 1rem;">Target Sentence</h3>
         <p id="target-sentence" style="font-size: 16px; color: #1a1a1a; margin: 0;">私は毎日学校に行きます。</p>
         <p style="font-size: 13px; color: #666; margin-top: 0.5rem; margin-bottom: 0;">I go to school every day.</p>
       </div>
-
-      <div class="sentence-section">
-        <h3>Word Bank (Click to add)</h3>
-        <div class="word-bank" id="word-bank"></div>
+      <div style="background: #f8f8f8; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 1rem;">Word Bank (Click to add)</h3>
+        <div id="word-bank" style="display: flex; flex-wrap: wrap; gap: 8px; min-height: 40px;"></div>
       </div>
-
-      <div class="sentence-section">
-        <h3>Your Sentence</h3>
-        <div class="sentence-builder" id="sentence-builder">
-          <p style="color: #999; font-size: 13px;">Click words above to build your sentence</p>
+      <div style="background: #f8f8f8; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 1rem;">Your Sentence</h3>
+        <div id="sentence-builder" style="background: white; border: 2px dashed #e0e0e0; border-radius: 8px; padding: 1rem; min-height: 60px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 1rem;">
+          <p style="color: #999; font-size: 13px; width: 100%;">Click words above to build your sentence</p>
         </div>
         <button onclick="checkSentence()">Check Answer</button>
       </div>
-
-      <div class="feedback-box" id="builder-feedback">
+      <div id="builder-feedback" class="feedback-box">
         <div class="feedback-title" id="builder-feedback-title"></div>
         <div class="feedback-text" id="builder-feedback-text"></div>
       </div>
@@ -559,24 +623,21 @@
     <!-- Grammar Tab -->
     <div id="grammar" class="tab-content">
       <label style="font-size: 14px; font-weight: 500; display: block; margin-bottom: 8px;">Select Particle</label>
-      <select onchange="updateGrammarRule(this.value)">
+      <select onchange="updateGrammarRule(this.value)" style="width: 100%; padding: 10px 12px; border: 1px solid #e0e0e0; border-radius: 6px; font-size: 14px; margin-bottom: 1rem;">
         <option value="は">は - Topic marker</option>
         <option value="を">を - Object marker</option>
         <option value="に">に - Location/Direction</option>
         <option value="か">か - Question marker</option>
         <option value="で">で - Location of action</option>
       </select>
-
-      <div class="grammar-rule-box">
-        <p>Rule</p>
-        <div class="rule-text" id="rule-text">Topic marker - identifies the topic of the sentence</div>
-        <p>Example</p>
-        <div class="example" id="rule-example">私は学生です。(I am a student.)</div>
+      <div style="background: #f8f8f8; border-left: 4px solid #667eea; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+        <p style="font-size: 13px; color: #666; margin-bottom: 0.5rem;">Rule</p>
+        <div style="font-size: 16px; color: #1a1a1a; font-weight: 500; margin-bottom: 1rem;" id="rule-text">Topic marker</div>
+        <p style="font-size: 13px; color: #666; margin-bottom: 0.5rem;">Example</p>
+        <div style="font-size: 14px; color: #333; font-style: italic;" id="rule-example">Example here</div>
       </div>
-
-      <button onclick="generateGrammarQuestion()" id="gen-btn">Generate Practice Question</button>
-
-      <div class="feedback-box" id="grammar-feedback">
+      <button onclick="generateGrammarQuestion()">Generate Practice Question</button>
+      <div id="grammar-feedback" class="feedback-box">
         <div class="feedback-title" id="feedback-title"></div>
         <div class="feedback-text" id="feedback-text"></div>
       </div>
@@ -588,12 +649,106 @@
   </div>
 
   <script>
-    // Expanded Vocabulary Data
-    const vocabData = {
+    // ===== DATA SECTION (All data in one place - easy to edit) =====
+    const LESSONS = [
+      {
+        id: 0,
+        title: 'Lesson 1: Greetings & Politeness',
+        intro: 'Learn the most common Japanese greetings used in daily conversations.',
+        questions: [
+          {
+            type: 'multiple-choice',
+            question: 'Which greeting is used in the morning?',
+            options: ['おはよう/おはようございます', 'こんにちは', 'こんばんは', 'おやすみなさい'],
+            correctIndex: 0
+          },
+          {
+            type: 'multiple-choice',
+            question: 'What do you say when leaving home?',
+            options: ['いってきます', 'ただいま', 'おやすみなさい', 'さようなら'],
+            correctIndex: 0
+          }
+        ]
+      },
+      {
+        id: 1,
+        title: 'Lesson 2: Numbers 1-10',
+        intro: 'Learn to count from 1 to 10 in Japanese.',
+        questions: [
+          {
+            type: 'matching',
+            question: 'Match the numbers:',
+            pairs: [
+              { ja: '1', romaji: 'ichi' },
+              { ja: '2', romaji: 'ni' },
+              { ja: '3', romaji: 'san' },
+              { ja: '5', romaji: 'go' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 2,
+        title: 'Lesson 3: Basic Verbs',
+        intro: 'Learn three common Japanese verbs: eat, drink, go.',
+        questions: [
+          {
+            type: 'multiple-choice',
+            question: 'What does 飲みます (nomimasu) mean?',
+            options: ['to eat', 'to drink', 'to go', 'to sleep'],
+            correctIndex: 1
+          },
+          {
+            type: 'multiple-choice',
+            question: 'What does 食べます (tabemasu) mean?',
+            options: ['to drink', 'to eat', 'to go', 'to read'],
+            correctIndex: 1
+          }
+        ]
+      },
+      {
+        id: 3,
+        title: 'Lesson 4: Family Members',
+        intro: 'Learn how to say family members in Japanese.',
+        questions: [
+          {
+            type: 'matching',
+            question: 'Match family members:',
+            pairs: [
+              { ja: 'お母さん', romaji: 'mother' },
+              { ja: 'お父さん', romaji: 'father' },
+              { ja: '兄', romaji: 'older brother' },
+              { ja: '妹', romaji: 'younger sister' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 4,
+        title: 'Lesson 5: Common Foods',
+        intro: 'Learn names of popular Japanese foods.',
+        questions: [
+          {
+            type: 'multiple-choice',
+            question: 'What is すし called in English?',
+            options: ['noodles', 'tempura', 'sushi', 'rice'],
+            correctIndex: 2
+          },
+          {
+            type: 'multiple-choice',
+            question: 'What is てんぷら in English?',
+            options: ['sushi', 'tempura', 'noodles', 'rice'],
+            correctIndex: 1
+          }
+        ]
+      }
+    ];
+
+    const VOCAB_DATA = {
       'Food': [
         { japanese: 'ご飯', romaji: 'gohan', english: 'rice/meal' },
         { japanese: 'パン', romaji: 'pan', english: 'bread' },
-        { japanese: 'す​し', romaji: 'sushi', english: 'sushi' },
+        { japanese: 'すし', romaji: 'sushi', english: 'sushi' },
         { japanese: 'りんご', romaji: 'ringo', english: 'apple' },
         { japanese: 'みず', romaji: 'mizu', english: 'water' },
         { japanese: 'ぎゅうにゅう', romaji: 'gyuunyuu', english: 'milk' },
@@ -632,66 +787,256 @@
       ],
     };
 
-    const sentenceExercises = [
+    const SENTENCE_EXERCISES = [
       { words: ['私は', '毎日', '学校に', '行きます。'], target: '私は毎日学校に行きます。', english: 'I go to school every day.' },
       { words: ['あの', '猫は', 'かわいいです。'], target: 'あの猫はかわいいです。', english: 'That cat is cute.' },
       { words: ['水を', '飲みます。'], target: '水を飲みます。', english: 'I drink water.' },
     ];
 
-    const grammarRules = {
+    const GRAMMAR_RULES = {
       'は': { rule: 'Topic marker - identifies the topic of the sentence', example: '私は学生です。(I am a student.)' },
       'を': { rule: 'Object marker - marks the direct object of a verb', example: '水を飲みます。(I drink water.)' },
       'に': { rule: 'Location/direction marker - to, in, at', example: '図書館に行きます。(I go to the library.)' },
       'か': { rule: 'Question marker - turns a statement into a question', example: '学生ですか？(Are you a student?)' },
       'で': { rule: 'Location of action - where something is done', example: 'カフェで勉強します。(I study at a cafe.)' }
     };
-
-    const basicVocab = [
-      { japanese: '日本', romaji: 'nihon', english: 'Japan' },
-      { japanese: 'さくら', romaji: 'sakura', english: 'cherry blossom' },
-      { japanese: '学生', romaji: 'gakusei', english: 'student' },
-      { japanese: '先生', romaji: 'sensei', english: 'teacher' },
-      { japanese: '食べ物', romaji: 'tabemono', english: 'food' },
-      { japanese: '猫', romaji: 'neko', english: 'cat' },
-      { japanese: '本', romaji: 'hon', english: 'book' },
-      { japanese: '学校', romaji: 'gakkou', english: 'school' },
-    ];
+    // ===== END DATA SECTION =====
 
     // State
-    let currentCard = 0;
-    let isFlipped = false;
     let stats = { studied: 0, correct: 0, streak: 0 };
-    let currentGrammar = 'は';
+    let completedLessons = {}; // { lessonId: score }
+    let currentLessonId = null;
+    let currentQuestionIndex = 0;
     let currentCategory = null;
-    let vocabCards = basicVocab;
+    let vocabCards = [];
     let currentVocabCard = 0;
     let isVocabFlipped = false;
     let currentSentenceExercise = 0;
+    let currentGrammar = 'は';
+    let matchingState = { selected: null, matched: [] };
 
     // Initialize
     window.addEventListener('DOMContentLoaded', () => {
       loadStats();
-      updateCardDisplay();
+      loadLessonProgress();
+      renderLessonSelection();
       initializeVocabCategories();
-      document.getElementById('card-total').textContent = basicVocab.length;
       loadSentenceExercise();
     });
 
-    // Tabs
-    function switchTab(tabName) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      document.getElementById(tabName).classList.add('active');
-      event.target.classList.add('active');
+    // ===== LEARN SECTION =====
+    function renderLessonSelection() {
+      const grid = document.getElementById('lesson-grid');
+      grid.innerHTML = '';
+
+      LESSONS.forEach(lesson => {
+        const isCompleted = completedLessons[lesson.id] !== undefined;
+        const isPreviousCompleted = lesson.id === 0 || completedLessons[lesson.id - 1] !== undefined;
+        const isLocked = !isPreviousCompleted;
+
+        const card = document.createElement('div');
+        card.className = `lesson-card ${isLocked ? 'locked' : ''}`;
+        card.onclick = () => !isLocked && enterLesson(lesson.id);
+
+        const status = isCompleted ? '✓' : isLocked ? '🔒' : '📖';
+        const scoreText = isCompleted ? `${completedLessons[lesson.id]}%` : '';
+
+        card.innerHTML = `
+          <div class="lesson-status">${status}</div>
+          <div class="lesson-title">${lesson.title}</div>
+          <div class="lesson-info">${scoreText}</div>
+          ${isCompleted ? `<div class="lesson-progress"><div class="lesson-progress-fill" style="width: ${completedLessons[lesson.id]}%;"></div></div>` : ''}
+        `;
+
+        grid.appendChild(card);
+      });
     }
 
-    // Vocab Categories
+    function enterLesson(lessonId) {
+      currentLessonId = lessonId;
+      currentQuestionIndex = 0;
+      matchingState = { selected: null, matched: [] };
+
+      document.getElementById('lesson-selection').style.display = 'none';
+      document.getElementById('lesson-screen').style.display = 'block';
+
+      loadLessonQuestion();
+    }
+
+    function backToLessonSelection() {
+      document.getElementById('lesson-screen').style.display = 'none';
+      document.getElementById('lesson-selection').style.display = 'block';
+    }
+
+    function loadLessonQuestion() {
+      const lesson = LESSONS[currentLessonId];
+      const question = lesson.questions[currentQuestionIndex];
+
+      document.getElementById('lesson-title').textContent = lesson.title;
+      document.getElementById('lesson-intro').textContent = lesson.intro;
+      document.getElementById('lesson-content').innerHTML = '';
+      document.getElementById('lesson-feedback').classList.remove('show');
+      document.getElementById('next-question-btn').style.display = 'none';
+
+      const progress = ((currentQuestionIndex + 1) / lesson.questions.length) * 100;
+      document.getElementById('lesson-progress').style.width = progress + '%';
+
+      if (question.type === 'multiple-choice') {
+        renderMultipleChoice(question);
+      } else if (question.type === 'matching') {
+        renderMatching(question);
+      }
+    }
+
+    function renderMultipleChoice(question) {
+      const html = `
+        <p class="question-text">${question.question}</p>
+        <div class="multiple-choice">
+          ${question.options.map((opt, idx) => `
+            <button class="choice-btn" onclick="checkMultipleChoice(${idx}, ${question.correctIndex})">${opt}</button>
+          `).join('')}
+        </div>
+      `;
+      document.getElementById('lesson-content').innerHTML = html;
+    }
+
+    function renderMatching(question) {
+      const html = `
+        <p class="question-text">${question.question}</p>
+        <div class="matching-container">
+          <div class="match-column">
+            <div class="match-column-title">Japanese</div>
+            <div id="match-ja-column" style="display: flex; flex-direction: column; gap: 10px;">
+              ${question.pairs.map((pair, idx) => `
+                <div class="match-item" onclick="selectMatchItem('ja', ${idx}, this)" data-index="${idx}">${pair.ja}</div>
+              `).join('')}
+            </div>
+          </div>
+          <div class="match-column">
+            <div class="match-column-title">English</div>
+            <div id="match-en-column" style="display: flex; flex-direction: column; gap: 10px;">
+              ${question.pairs.map((pair, idx) => `
+                <div class="match-item" onclick="selectMatchItem('en', ${idx}, this)" data-index="${idx}">${pair.romaji}</div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+        <button onclick="checkMatching()">Check Answers</button>
+      `;
+      document.getElementById('lesson-content').innerHTML = html;
+      matchingState = { selected: null, matched: [] };
+    }
+
+    function selectMatchItem(type, idx, element) {
+      if (matchingState.matched.some(m => m.ja === idx || m.en === idx)) return; // Already matched
+
+      if (!matchingState.selected) {
+        matchingState.selected = { type, idx };
+        element.classList.add('selected');
+      } else {
+        if (matchingState.selected.type === type) {
+          // Same type clicked, deselect
+          document.querySelectorAll(`.match-${matchingState.selected.type}-column .match-item`)[matchingState.selected.idx].classList.remove('selected');
+          matchingState.selected = null;
+        } else {
+          // Different type, make match
+          const isCorrect = matchingState.selected.idx === idx;
+          const jaIdx = matchingState.selected.type === 'ja' ? matchingState.selected.idx : idx;
+          const enIdx = matchingState.selected.type === 'en' ? matchingState.selected.idx : idx;
+
+          matchingState.matched.push({ ja: jaIdx, en: enIdx, correct: isCorrect });
+
+          // Mark items
+          document.querySelectorAll(`.match-ja-column .match-item`)[jaIdx].classList.add(isCorrect ? 'matched' : 'incorrect');
+          document.querySelectorAll(`.match-en-column .match-item`)[enIdx].classList.add(isCorrect ? 'matched' : 'incorrect');
+
+          // Deselect
+          document.querySelectorAll(`.match-${matchingState.selected.type}-column .match-item`)[matchingState.selected.idx].classList.remove('selected');
+          matchingState.selected = null;
+        }
+      }
+    }
+
+    function checkMatching() {
+      const lesson = LESSONS[currentLessonId];
+      const question = lesson.questions[currentQuestionIndex];
+      const allCorrect = matchingState.matched.every(m => m.correct) && matchingState.matched.length === question.pairs.length;
+
+      const feedback = document.getElementById('lesson-feedback');
+      feedback.classList.add('show');
+
+      if (allCorrect) {
+        document.getElementById('lesson-feedback-title').textContent = '✓ Perfect!';
+        document.getElementById('lesson-feedback-text').textContent = 'All matches are correct!';
+      } else {
+        document.getElementById('lesson-feedback-title').textContent = '✗ Some matches are incorrect';
+        document.getElementById('lesson-feedback-text').textContent = 'Try again by clicking a new match.';
+      }
+
+      stats.studied++;
+      if (allCorrect) {
+        stats.correct++;
+        stats.streak++;
+      } else {
+        stats.streak = 0;
+      }
+      saveStats();
+      updateStats();
+      document.getElementById('next-question-btn').style.display = 'block';
+    }
+
+    function checkMultipleChoice(selected, correct) {
+      const buttons = document.querySelectorAll('.choice-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      const feedback = document.getElementById('lesson-feedback');
+      feedback.classList.add('show');
+
+      const isCorrect = selected === correct;
+      if (isCorrect) {
+        buttons[selected].classList.add('correct');
+        document.getElementById('lesson-feedback-title').textContent = '✓ Correct!';
+        document.getElementById('lesson-feedback-text').textContent = 'Great job!';
+        stats.correct++;
+        stats.streak++;
+      } else {
+        buttons[selected].classList.add('incorrect');
+        buttons[correct].classList.add('correct');
+        document.getElementById('lesson-feedback-title').textContent = '✗ Incorrect';
+        document.getElementById('lesson-feedback-text').textContent = `The correct answer is: ${buttons[correct].textContent}`;
+        stats.streak = 0;
+      }
+      stats.studied++;
+      saveStats();
+      updateStats();
+      document.getElementById('next-question-btn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      const lesson = LESSONS[currentLessonId];
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < lesson.questions.length) {
+        loadLessonQuestion();
+      } else {
+        // Lesson complete
+        const score = Math.round((stats.correct / stats.studied) * 100);
+        completedLessons[currentLessonId] = score;
+        saveLessonProgress();
+        alert(`🎉 Lesson Complete! Score: ${score}%`);
+        backToLessonSelection();
+        renderLessonSelection();
+      }
+    }
+
+    // ===== PRACTICE SECTION =====
     function initializeVocabCategories() {
       const grid = document.getElementById('category-grid');
-      Object.keys(vocabData).forEach(category => {
+      Object.keys(VOCAB_DATA).forEach(category => {
         const btn = document.createElement('button');
         btn.className = 'category-btn';
         btn.textContent = category;
+        btn.style.color = '#1a1a1a';
         btn.onclick = () => selectVocabCategory(category, btn);
         grid.appendChild(btn);
       });
@@ -701,10 +1046,11 @@
       currentCategory = category;
       document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      vocabCards = vocabData[category];
+      vocabCards = VOCAB_DATA[category];
       currentVocabCard = 0;
       isVocabFlipped = false;
       document.getElementById('vocab-total').textContent = vocabCards.length;
+      document.getElementById('vocab-practice').style.display = 'block';
       updateVocabCardDisplay();
     }
 
@@ -759,9 +1105,9 @@
       document.getElementById('vocab-num').textContent = currentVocabCard + 1;
     }
 
-    // Sentence Builder
+    // ===== SENTENCE BUILDER =====
     function loadSentenceExercise() {
-      const ex = sentenceExercises[currentSentenceExercise % sentenceExercises.length];
+      const ex = SENTENCE_EXERCISES[currentSentenceExercise % SENTENCE_EXERCISES.length];
       document.getElementById('target-sentence').textContent = ex.target;
       document.getElementById('word-bank').innerHTML = '';
       
@@ -769,42 +1115,34 @@
         const chip = document.createElement('div');
         chip.className = 'word-chip';
         chip.textContent = word;
-        chip.onclick = () => addWordToSentence(word, idx, chip);
+        chip.onclick = () => addWordToSentence(word);
         document.getElementById('word-bank').appendChild(chip);
       });
       
       clearSentenceBuilder();
     }
 
-    function addWordToSentence(word, idx, element) {
+    function addWordToSentence(word) {
       const builder = document.getElementById('sentence-builder');
       if (builder.textContent.includes('Click words')) {
         builder.innerHTML = '';
       }
       
       const wordEl = document.createElement('div');
-      wordEl.className = 'built-word';
-      wordEl.textContent = word + ' ';
-      wordEl.dataset.index = idx;
-      wordEl.onclick = () => removeWord(wordEl);
+      wordEl.style.cssText = 'background: #667eea; color: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;';
+      wordEl.textContent = word + ' ×';
+      wordEl.onclick = () => wordEl.remove();
       builder.appendChild(wordEl);
     }
 
-    function removeWord(el) {
-      el.remove();
-      if (document.getElementById('sentence-builder').children.length === 0) {
-        document.getElementById('sentence-builder').innerHTML = '<p style="color: #999; font-size: 13px;">Click words above to build your sentence</p>';
-      }
-    }
-
     function clearSentenceBuilder() {
-      document.getElementById('sentence-builder').innerHTML = '<p style="color: #999; font-size: 13px;">Click words above to build your sentence</p>';
+      document.getElementById('sentence-builder').innerHTML = '<p style="color: #999; font-size: 13px; width: 100%;">Click words above to build your sentence</p>';
     }
 
     function checkSentence() {
-      const ex = sentenceExercises[currentSentenceExercise % sentenceExercises.length];
+      const ex = SENTENCE_EXERCISES[currentSentenceExercise % SENTENCE_EXERCISES.length];
       const builtText = Array.from(document.getElementById('sentence-builder').children)
-        .map(el => el.textContent.trim())
+        .map(el => el.textContent.replace(' ×', '').trim())
         .join('');
       const correct = builtText === ex.target;
       
@@ -822,68 +1160,16 @@
       }
     }
 
-    // Flashcards
-    function toggleFlashcard() {
-      isFlipped = !isFlipped;
-      const front = document.getElementById('card-front');
-      const hint = document.getElementById('card-hint');
-      const back = document.getElementById('card-back');
-      const btnGroup = document.getElementById('button-group');
-
-      if (isFlipped) {
-        front.classList.add('hide');
-        hint.style.display = 'none';
-        back.classList.add('show');
-        btnGroup.classList.remove('btn-hidden');
-      } else {
-        front.classList.remove('hide');
-        hint.style.display = 'block';
-        back.classList.remove('show');
-        btnGroup.classList.add('btn-hidden');
-      }
-    }
-
-    function markCard(correct) {
-      stats.studied++;
-      if (correct) {
-        stats.correct++;
-        stats.streak++;
-      } else {
-        stats.streak = 0;
-      }
-      saveStats();
-      updateStats();
-      nextCard();
-    }
-
-    function nextCard() {
-      currentCard = (currentCard + 1) % basicVocab.length;
-      isFlipped = false;
-      updateCardDisplay();
-      document.getElementById('button-group').classList.add('btn-hidden');
-      document.getElementById('card-front').classList.remove('hide');
-      document.getElementById('card-hint').style.display = 'block';
-      document.getElementById('card-back').classList.remove('show');
-    }
-
-    function updateCardDisplay() {
-      const card = basicVocab[currentCard];
-      document.getElementById('card-front').textContent = card.japanese;
-      document.getElementById('card-romaji').textContent = card.romaji;
-      document.getElementById('card-english').textContent = card.english;
-      document.getElementById('card-num').textContent = currentCard + 1;
-    }
-
-    // Grammar
+    // ===== GRAMMAR =====
     function updateGrammarRule(particle) {
       currentGrammar = particle;
-      document.getElementById('rule-text').textContent = grammarRules[particle].rule;
-      document.getElementById('rule-example').textContent = grammarRules[particle].example;
+      document.getElementById('rule-text').textContent = GRAMMAR_RULES[particle].rule;
+      document.getElementById('rule-example').textContent = GRAMMAR_RULES[particle].example;
       document.getElementById('grammar-feedback').classList.remove('show');
     }
 
     function generateGrammarQuestion() {
-      const btn = document.getElementById('gen-btn');
+      const btn = event.target;
       btn.disabled = true;
       btn.textContent = 'Generating...';
       
@@ -907,7 +1193,15 @@
       }, 800);
     }
 
-    // Stats
+    // ===== TABS =====
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // ===== STATS & STORAGE =====
     function updateStats() {
       document.getElementById('stat-studied').textContent = stats.studied;
       document.getElementById('stat-correct').textContent = stats.correct;
@@ -923,6 +1217,17 @@
       if (saved) {
         stats = JSON.parse(saved);
         updateStats();
+      }
+    }
+
+    function saveLessonProgress() {
+      localStorage.setItem('jplessons', JSON.stringify(completedLessons));
+    }
+
+    function loadLessonProgress() {
+      const saved = localStorage.getItem('jplessons');
+      if (saved) {
+        completedLessons = JSON.parse(saved);
       }
     }
   </script>
